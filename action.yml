@@ -15,10 +15,10 @@ inputs:
     description: Using boa (mambabuild) to build the packages.
     required: false
     default: false
-  channels:
-    description: Extra channels for build
+  extra+config:
+    description: Extra conda build options
     required: false
-    default: conda-forge phygbu
+    default: '-c conda=forge -c phygbu'
   platform_host:
     description: Target host plaform.
     required: false
@@ -122,13 +122,12 @@ runs:
       run: |
         echo "::group::Building conda package for host platform"
         out_dir=`mktemp -d -t compilation-XXXXXXXXXX`
-        channels=`for ch in {{ input.channels }}; do echo -n "-c $ch "; done`
         if "${{ inputs.mambabuild }}"; then
-          echo "conda mambabuild . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} $channels"
-          conda mambabuild . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} $channels
+          echo "conda mambabuild . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} {{ inputs.extra_config }}"
+          conda mambabuild . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} {{ inputs.extra_config }}
         else
-          echo "conda build . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} $channels"
-          conda build . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} $channels
+          echo "conda build . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} {{ inputs.extra_config }}"
+          conda build . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} {{ inputs.extra_config }}
         fi
         for dirname in $out_dir/*; do
           if [ -d "$dirname" ]; then
