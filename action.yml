@@ -15,7 +15,7 @@ inputs:
     description: Using boa (mambabuild) to build the packages.
     required: false
     default: false
-  extra+config:
+  extra_config:
     description: Extra conda build options
     required: false
     default: '-c conda=forge -c phygbu'
