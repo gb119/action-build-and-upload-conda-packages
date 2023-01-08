@@ -122,7 +122,7 @@ runs:
       run: |
         echo "::group::Building conda package for host platform"
         out_dir=`mktemp -d -t compilation-XXXXXXXXXX`
-        channels=`for ch in {{ input.channels }}' doc echo -n "-c $ch "; done`
+        channels=`for ch in {{ input.channels }}; do echo -n "-c $ch "; done`
         if "${{ inputs.mambabuild }}"; then
           echo "conda mambabuild . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} $channels"
           conda mambabuild . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} $channels
