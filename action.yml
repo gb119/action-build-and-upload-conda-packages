@@ -126,6 +126,7 @@ runs:
         echo "::group::Building conda package for host platform"
         out_dir=`mktemp -d -t compilation-XXXXXXXXXX`
         if "${{ inputs.mambabuild }}"; then
+          export MAMBA_EXTRACT_THREADS=1
           echo "conda mambabuild . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} ${{ inputs.extra_config }}"
           conda mambabuild . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} ${{ inputs.extra_config }}
         else
