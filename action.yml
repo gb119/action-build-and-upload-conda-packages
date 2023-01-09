@@ -120,7 +120,9 @@ runs:
       shell: bash -l {0}
       working-directory: ./${{ inputs.meta_yaml_dir }}
       run: |
-        micromamba install mamba
+        if "${{ inputs.mambabuild }}"; then
+          micromamba install -c conda-forge mamba
+        fi
         echo "::group::Building conda package for host platform"
         out_dir=`mktemp -d -t compilation-XXXXXXXXXX`
         if "${{ inputs.mambabuild }}"; then
