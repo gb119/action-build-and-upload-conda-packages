@@ -120,11 +120,12 @@ runs:
       shell: bash -l {0}
       working-directory: ./${{ inputs.meta_yaml_dir }}
       run: |
+        micromamba install mamba
         echo "::group::Building conda package for host platform"
         out_dir=`mktemp -d -t compilation-XXXXXXXXXX`
         if "${{ inputs.mambabuild }}"; then
-          echo "micromamba build . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} ${{ inputs.extra_config }}"
-          micromamba build . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} ${{ inputs.extra_config }}
+          echo "mamba build . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} ${{ inputs.extra_config }}"
+          mamba build . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} ${{ inputs.extra_config }}
         else
           echo "conda build . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} ${{ inputs.extra_config }}"
           conda build . --no-anaconda-upload --output-folder $out_dir --python ${{ inputs.python-version }} ${{ inputs.extra_config }}
