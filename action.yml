@@ -18,7 +18,7 @@ inputs:
   extra_config:
     description: Extra conda build options
     required: false
-    default: '-c conda=forge -c phygbu'
+    default: '-c conda-forge -c phygbu'
   platform_host:
     description: Target host plaform.
     required: false
